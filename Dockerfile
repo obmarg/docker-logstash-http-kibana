@@ -50,6 +50,6 @@ RUN chmod +x /usr/local/bin/run.sh
 # Tidy up /tmp
 RUN rm -Rf /tmp/*
 
-ENTRYPOINT ["/usr/local/bin/run.sh"]
+CMD ["/usr/local/bin/run.sh"]
 EXPOSE 80
 
