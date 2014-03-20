@@ -47,6 +47,10 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
 
+# Install our setpass script
+ADD setpass.sh /usr/local/bin/setpass.sh
+RUN chmod +x /usr/local/bin/setpass.sh
+
 # Tidy up /tmp
 RUN rm -Rf /tmp/*
 
