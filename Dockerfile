@@ -25,6 +25,9 @@ RUN sed s/:9200/:80/ /usr/share/kibana3/config.js > /usr/share/kibana3/config.js
 RUN apt-get install -y python-pip
 RUN pip install --user gunicorn==18.0
 
+# Install 0mq (needed for gae-logstash-http deps, and logstash)
+RUN apt-get install -y libzmq-dev
+
 # Setup logstash-gae-http
 RUN apt-get install -y git python-dev
 RUN git clone https://github.com/obmarg/gae-logstash-http.git
