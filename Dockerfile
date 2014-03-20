@@ -10,7 +10,8 @@ ADD logstash.conf /opt/logstash.conf
 
 # Install nginx
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget nginx-full
-# Remove the default nginx site
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+# Remove the default nginx site and setup ours
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD nginx-site.conf /etc/nginx/sites-available/es-kibana
 RUN ln -s /etc/nginx/sites-available/es-kibana /etc/nginx/sites-enabled/es-kibana
@@ -32,5 +33,16 @@ RUN pip install --user -r gae-logstash-http/requirements.txt
 
 # Note: These next ones should probably be run on startup.
 #
-# TODO: Run a sed on /opt/logstash to get $ES_HOST into it.
 # TODO: Run a sed on the nginx site file to set up shit in it
+
+# Install our run script
+ADD run.sh /usr/local/bin/run.sh
+RUN chmod +x /usr/local/bin/run.sh
+
+# Tidy up /tmp
+RUN rm -Rf /tmp/*
+
+ENTRYPOINT ["/usr/local/bin/run.sh"]
+USER daemon
+EXPOSE 80
+
