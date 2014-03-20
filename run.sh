@@ -11,7 +11,7 @@ ES_TRANSPORT_PORT=$ES_PORT_9300_TCP_PORT
 # TODO: At the moment these will only work on first run.  Fix that.
 # Configure logstash
 sed "s/{{ES_HOST}}/$ES_TRANSPORT_HOST/" -ibac $LOGSTASH_CONF
-sed "s/{{ES_TRANSPORT_PORT}}/$ES_TRANSPORT_PORT/" -ibac2 $LOGSTASH_CONF
+sed "s/{{ES_PORT}}/$ES_TRANSPORT_PORT/" -ibac2 $LOGSTASH_CONF
 
 # Configure nginx
 sed "s/{{ES_HOST}}/$ES_HOST/" -ibac $SITE_CONF
