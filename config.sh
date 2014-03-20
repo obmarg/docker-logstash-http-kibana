@@ -16,9 +16,3 @@ sed "s/{{ES_TRANSPORT_PORT}}/$ES_TRANSPORT_PORT/" $LOGSTASH_CONF > $LOGSTASH_CON
 sed "s/{{ES_HOST}}/$ES_HOST/" $SITE_CONF > $SITE_CONF
 sed "s/{{ES_PORT}}/$ES_PORT/" $SITE_CONF > $SITE_CONF
 sed "s/{{MY_HOST}}/$MY_HOST/" $SITE_CONF > $SITE_CONF
-
-java -jar /opt/logstash.jar agent -f /opt/logstash.conf &
-nginx -c /etc/nginx/nginx.conf &
-
-cd gae-logstash-http
-../.local/bin/gunicorn -w 2 app:app
