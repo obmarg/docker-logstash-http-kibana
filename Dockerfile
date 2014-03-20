@@ -14,14 +14,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y wget nginx-full
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD nginx-site.conf /etc/nginx/sites-available/es-kibana
 RUN ln -s /etc/nginx/sites-available/es-kibana /etc/nginx/sites-enabled/es-kibana
-# TODO: Restart nginx?
-# TODO: Create password files
+# TODO: Create password files (or leave that for later)
 
 # Install Kibana
-# TODO: Update this to latest version
-# TODO: Update the path to something else if needed
-RUN (cd /tmp && wget --no-check-certificate https://github.com/elasticsearch/kibana/archive/v3.0.0milestone2.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && cp -rf ./* /usr/share/nginx/www/)
-# TODO: Configure Kibana
+RUN (cd /tmp && wget https://download.elasticsearch.org/kibana/kibana/kibana-3.0.0.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && mkdir /usr/share/kibana3 && cp -rf ./* /usr/share/kibana3/)
+RUN sed s/:9200/:80/ /usr/share/kibana3/config.js > /usr/share/kibana3/config.js
 
 # Install gunicorn
 RUN apt-get install -y python-pip
