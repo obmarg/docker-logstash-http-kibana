@@ -25,11 +25,12 @@ RUN (cd /tmp && wget --no-check-certificate https://github.com/elasticsearch/kib
 
 # Install gunicorn
 RUN apt-get install -y python-pip
-RUN pip install --user guinicorn==0.13.4
+RUN pip install --user gunicorn==18.0
 
 # Setup logstash-gae-http
-RUN git checkout https://github.com/obmarg/gae-logstash-http.git
-RUN pip install --user gae-logstash-http/requirements.txt
+RUN apt-get install -y git python-dev
+RUN git clone https://github.com/obmarg/gae-logstash-http.git
+RUN pip install --user -r gae-logstash-http/requirements.txt
 # TODO: May need to setup env variable for user python path
 
 # Note: These next ones should probably be run on startup.
