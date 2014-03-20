@@ -19,7 +19,7 @@ RUN ln -s /etc/nginx/sites-available/es-kibana /etc/nginx/sites-enabled/es-kiban
 
 # Install Kibana
 RUN (cd /tmp && wget https://download.elasticsearch.org/kibana/kibana/kibana-3.0.0.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && mkdir /usr/share/kibana3 && cp -rf ./* /usr/share/kibana3/)
-RUN sed -i s/:9200/:80/ /usr/share/kibana3/config.js
+RUN sed -i "s/elasticsearch:.*$/elasticsearch:window.location.href,/" /usr/share/kibana3/config.js
 
 # Install gunicorn
 RUN apt-get install -y python-pip
