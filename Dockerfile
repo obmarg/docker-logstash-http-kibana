@@ -35,19 +35,18 @@ RUN pip install --user -r gae-logstash-http/requirements.txt
 #
 # TODO: Run a sed on the nginx site file to set up shit in it
 
-# Install our config script
-ADD config.sh /usr/local/bin/config.sh
-RUN chmod +x /usr/local/bin/config.sh
-RUN /usr/local/bin/config.sh
-
 # Install SupervisorD
 RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Install our run script
+ADD run.sh /usr/local/bin/run.sh
+RUN chmod +x /usr/local/bin/run.sh
+
 # Tidy up /tmp
 RUN rm -Rf /tmp/*
 
-ENTRYPOINT ["/usr/bin/supervisord"]
+ENTRYPOINT ["/usr/local/bin/run.sh"]
 EXPOSE 80
 
