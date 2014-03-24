@@ -18,7 +18,7 @@ RUN ln -s /etc/nginx/sites-available/es-kibana /etc/nginx/sites-enabled/es-kiban
 # TODO: Create password files (or leave that for later)
 
 # Install Kibana
-RUN (cd /tmp && wget https://download.elasticsearch.org/kibana/kibana/kibana-3.0.0.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && mkdir /usr/share/kibana3 && cp -rf ./* /usr/share/kibana3/)
+RUN (cd /tmp && wget https://download.elasticsearch.org/kibana/kibana/kibana-latest.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && mkdir /usr/share/kibana3 && cp -rf ./* /usr/share/kibana3/)
 RUN sed -i "s/elasticsearch:.*$/elasticsearch:window.location.href,/" /usr/share/kibana3/config.js
 
 # Install gunicorn
