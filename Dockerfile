@@ -1,10 +1,9 @@
-FROM base
+FROM dockerfile/java
 MAINTAINER Graeme Coupar "http://github.com/obmarg"
 
 RUN apt-get update
 
-# Install JDK & logstash
-RUN apt-get install -y wget openjdk-6-jre
+# Install logstash
 RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.3.3-flatjar.jar -O /opt/logstash.jar
 ADD logstash.conf /opt/logstash.conf
 
@@ -15,7 +14,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm -f /etc/nginx/sites-enabled/default
 ADD nginx-site.conf /etc/nginx/sites-available/es-kibana
 RUN ln -s /etc/nginx/sites-available/es-kibana /etc/nginx/sites-enabled/es-kibana
-# TODO: Create password files (or leave that for later)
 
 # Install Kibana
 RUN (cd /tmp && wget https://download.elasticsearch.org/kibana/kibana/kibana-latest.tar.gz -O pkg.tar.gz && tar zxf pkg.tar.gz && cd kibana-* && mkdir /usr/share/kibana3 && cp -rf ./* /usr/share/kibana3/)
@@ -32,11 +30,6 @@ RUN apt-get install -y libzmq-dev
 RUN apt-get install -y git python-dev
 RUN git clone https://github.com/obmarg/gae-logstash-http.git
 RUN pip install --user -r gae-logstash-http/requirements.txt
-# TODO: May need to setup env variable for user python path
-
-# Note: These next ones should probably be run on startup.
-#
-# TODO: Run a sed on the nginx site file to set up shit in it
 
 # Install SupervisorD
 RUN apt-get install -y supervisor
